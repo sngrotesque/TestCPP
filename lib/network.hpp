@@ -5,6 +5,8 @@
 
 bool WSAData_Enable = false;
 
+void network_excetion();
+
 class Socket {
     private:
         SOCKET sockfd;
@@ -24,8 +26,7 @@ class Socket {
                 WSAData_Enable = true;
                 WSADATA ws;
                 if(WSAStartup(MAKEWORD(2,2), &ws)) {
-                    std::string code = std::to_string(WSAGetLastError());
-                    throw std::runtime_error("error code: " + code + ".");
+                    network_excetion();
                 }
             }
             if(_fd == EOF) {
@@ -43,6 +44,16 @@ class Socket {
                 WSACleanup();
             }
         }
+
+        void bind(std::string addr, uint16_t port);
+        void listen(int backlog = 3);
+        Socket *accept();
+        void connect(std::string addr, uint16_t port);
+        void send(std::string buf, int flags = 0);
+        void sendall(std::string buf, int flags = 0);
+        void recv(uint32_t len, int flags = 0);
+        void shutdown(int how);
+        void close();
 };
 
 #endif
