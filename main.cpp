@@ -60,6 +60,8 @@ void crypto_class_test()
     printHexArray((uint8_t *)content, content_len, 32, 1, 0);
     ctx->encrypt((uint8_t *)content, strlen(content));
     printHexArray((uint8_t *)content, content_len, 32, 1, 0);
+    ctx->decrypt((uint8_t *)content, strlen(content));
+    printHexArray((uint8_t *)content, content_len, 32, 1, 0);
     delete ctx;
 }
 
