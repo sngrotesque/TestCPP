@@ -23,15 +23,24 @@ class Socket {
             if(!WSAData_Enable) {
                 WSAData_Enable = true;
                 WSADATA ws;
-                int err = WSAStartup(MAKEWORD(2,2), &ws);
-                if(err == SOCKET_ERROR) {
-                    throw std::runtime_error("");
+                if(WSAStartup(MAKEWORD(2,2), &ws)) {
+                    std::string code = std::to_string(WSAGetLastError());
+                    throw std::runtime_error("error code: " + code + ".");
                 }
             }
             if(_fd == EOF) {
-                this->sockfd = socket(socket_family, socket_type, socket_proto);
+                this->sockfd = socket(this->socket_family, this->socket_type, this->socket_proto);
             } else {
                 this->sockfd = _fd;
+            }
+
+            hints.ai_family = this->socket_family;
+        }
+
+        ~Socket()
+        {
+            if(WSAData_Enable) {
+                WSACleanup();
             }
         }
 };
