@@ -9,6 +9,6 @@
 #include <cstring>
 #include <cstdbool>
 
-void code_test();
+void printHexArray(uint8_t *data, size_t len, uint32_t num, bool newline, bool tableChar);
 
 #endif /* BASELIB */
