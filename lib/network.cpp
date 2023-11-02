@@ -2,9 +2,12 @@
 
 ADDRINFO *Socket::getSockAddrInfo(const char *addr, const uint16_t port)
 {
-    const char *serviceName = std::to_string(port).c_str();
     ADDRINFO hints, *result = nullptr;
-    if(getaddrinfo(addr, serviceName, &hints, &result)) {
+    memset(&hints, 0x00, sizeof(hints));
+    hints.ai_family = this->socket_family;
+    hints.ai_socktype = this->socket_type;
+    hints.ai_protocol = this->socket_proto;
+    if(getaddrinfo(addr, std::to_string(port).c_str(), &hints, &result)) {
         network_excetion("Socket::getSockAddrInfo");
     }
     return result;

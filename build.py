@@ -9,5 +9,5 @@ LibraryFiles = ' '.join(['lib/crypto.cpp', 'lib/baselib.cpp', 'lib/network.cpp']
 GppArgs      = ' '.join(['-O3', '-lws2_32'])
 OutputFile   = 'main.exe'
 
-print(run(f'{ProgramName} {InputFile} {LibraryFiles} {GppArgs} -o {OutputFile}'))
-print(run(f'.\{OutputFile}'))
+if not run(f'{ProgramName} {InputFile} {LibraryFiles} {GppArgs} -o {OutputFile}'):
+    run(f'.\{OutputFile}')

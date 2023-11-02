@@ -17,6 +17,7 @@ void stop_service()
 
 int main(int argc, char **argv)
 {
+    start_service();
     Socket *sockfd = new Socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     std::string addr = "www.bilibili.com";
     const uint16_t port = 80;
@@ -32,12 +33,13 @@ int main(int argc, char **argv)
 
     sockfd->connect(addr, port);
     sockfd->send(sendbuf);
-    sockfd->recv(4096);
+    recvbuf = sockfd->recv(4096);
     sockfd->shutdown(SD_BOTH);
     sockfd->close();
 
     std::cout << recvbuf << std::endl;
 
     delete sockfd;
+    stop_service();
     return 0;
 }
