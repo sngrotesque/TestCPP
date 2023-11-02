@@ -67,7 +67,18 @@ void Socket::send(std::string buf, int flags)
 
 void Socket::sendall(std::string buf, int flags)
 {
+    char *offset_ptr = (char *)buf.c_str();
+    uint32_t size = (socklen_t)buf.size();
+    uint32_t retry_count = 5;
 
+    while(size) {
+        this->transmissionLength = ::send(this->sockfd, offset_ptr, size, flags);
+        if(this->transmissionLength == SOCKET_ERROR && retry_count--) {
+            continue;
+        }
+        offset_ptr += this->transmissionLength;
+        size -= this->transmissionLength;
+    }
 }
 
 std::string Socket::recv(uint32_t len, int flags)
