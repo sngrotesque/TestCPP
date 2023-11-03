@@ -108,6 +108,3 @@ void Socket::close()
         network_excetion("Socket::close");
     }
 }
-
-
-
